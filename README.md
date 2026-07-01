@@ -202,7 +202,7 @@ a plain-English recommendation explaining that this result alone would not
 justify a business decision without stronger intervention design or additional
 context.
 
-## Dashboard Screenshots
+## StreamLit Screenshots
 screenshots are here after opening the local dashboard:
 <img width="1458" height="772" alt="Screenshot 2026-07-01 at 6 32 30 PM 1" src="https://github.com/user-attachments/assets/86376b38-a4c9-49c0-83f9-cffe7fa1e918" />
 <img width="1426" height="636" alt="Screenshot 2026-07-01 at 6 33 40 PM" src="https://github.com/user-attachments/assets/19ad40b5-3c5a-4886-902e-0cc9033f68ca" />
@@ -211,8 +211,16 @@ screenshots are here after opening the local dashboard:
 <img width="1418" height="738" alt="Screenshot 2026-07-01 at 6 34 31 PM" src="https://github.com/user-attachments/assets/afca492e-6e1a-43a7-b586-7488cf2af8bc" />
 <img width="1448" height="742" alt="Screenshot 2026-07-01 at 6 34 16 PM" src="https://github.com/user-attachments/assets/a80d90ed-299c-491d-b58a-ffe709ce45d3" />
 
+## Tableau Screenshots
+<img width="1414" height="817" alt="Screenshot 2026-07-01 at 6 38 53 PM" src="https://github.com/user-attachments/assets/bdb5bb30-5ec1-4247-820e-07e34caf5062" />
+<img width="1253" height="819" alt="Screenshot 2026-07-01 at 6 40 10 PM" src="https://github.com/user-attachments/assets/5ff41d73-9fce-4fbd-b7da-f2f043292b34" />
 
 
+## 📊 Tableau Dashboard
+
+View the interactive dashboard here:
+
+[Tableau Dashboard](https://public.tableau.com/app/profile/hateem.khurram/viz/RetailPulseSalesAnalyticsDashboard/RetailPulseSalesAnalyticsDashboard)
 
 
 ## Important Talking Points
