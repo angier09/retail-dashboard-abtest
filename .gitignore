@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+data/raw/
+data/processed/
+
+.env
+.env.local
+
+target/
+dbt_packages/
+logs/
+
+.ipynb_checkpoints/
