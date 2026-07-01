@@ -1,0 +1,107 @@
+version: 2
+
+models:
+  - name: int_payments__order_summary
+    description: Order-grain payment summary that prevents payment rows from fanning out order or item facts.
+    columns:
+      - name: order_id
+        description: Unique order identifier.
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_olist__orders')
+                field: order_id
+      - name: total_payment_value
+        description: Total payment value across all payment rows for the order.
+        data_tests:
+          - not_null
+
+  - name: int_reviews__order_summary
+    description: Order-grain review summary that resolves duplicate review records before order joins.
+    columns:
+      - name: order_id
+        description: Unique order identifier for the reviewed order.
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_olist__orders')
+                field: order_id
+      - name: latest_review_score
+        description: Review score from the latest review response for the order.
+        data_tests:
+          - not_null
+
+  - name: int_geolocation__zip_summary
+    description: Zip/state-grain geolocation summary using average coordinates and the most observed city label.
+    columns:
+      - name: geolocation_zip_code_prefix
+        description: Brazilian zip code prefix.
+        data_tests:
+          - not_null
+      - name: geolocation_state
+        description: Two-letter Brazilian state abbreviation.
+        data_tests:
+          - not_null
+
+  - name: int_order_items__enriched
+    description: Item-grain order facts enriched with product category and seller geography.
+    columns:
+      - name: order_item_key
+        description: Unique order item key.
+        data_tests:
+          - not_null
+          - unique
+      - name: order_id
+        description: Identifier for the order containing the item.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_olist__orders')
+                field: order_id
+      - name: item_total_value
+        description: Item price plus freight value.
+        data_tests:
+          - not_null
+
+  - name: int_orders__enriched
+    description: Order-grain table joining customers, order item totals, payments, reviews, and delivery metrics.
+    columns:
+      - name: order_id
+        description: Unique order identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_unique_id
+        description: Person-level customer identifier for analytics.
+        data_tests:
+          - not_null
+      - name: order_status
+        description: Current status of the order in the Olist lifecycle.
+        data_tests:
+          - not_null
+      - name: has_valid_delivery_timing
+        description: True when the delivered customer timestamp exists and is not before purchase.
+        data_tests:
+          - not_null
+
+  - name: int_customers__rfm_inputs
+    description: Person-level recency, frequency, and monetary inputs calculated from delivered orders.
+    columns:
+      - name: customer_unique_id
+        description: Unique person-level customer identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: recency_days
+        description: Days between the customer's last purchase and the dataset analysis date.
+        data_tests:
+          - not_null
+      - name: monetary_value
+        description: Total delivered item revenue for the customer.
+        data_tests:
+          - not_null

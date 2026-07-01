@@ -1,0 +1,140 @@
+version: 2
+
+models:
+  - name: fct_sales
+    description: Delivered order item fact table for revenue, product, seller, and customer analysis.
+    columns:
+      - name: sales_line_item_id
+        description: Unique delivered sales line item identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: order_id
+        description: Identifier for the delivered order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_orders')
+                field: order_id
+      - name: customer_unique_id
+        description: Person-level customer identifier.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_unique_id
+      - name: product_id
+        description: Identifier for the sold product.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_id
+      - name: seller_id
+        description: Identifier for the seller of the line item.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_seller')
+                field: seller_id
+
+  - name: fct_orders
+    description: Order-grain fact table with sales totals, payment attributes, review metrics, and delivery KPIs.
+    columns:
+      - name: order_id
+        description: Unique order identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_unique_id
+        description: Person-level customer identifier.
+        data_tests:
+          - not_null
+      - name: order_status
+        description: Current status of the order in the Olist lifecycle.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - approved
+                  - canceled
+                  - created
+                  - delivered
+                  - invoiced
+                  - processing
+                  - shipped
+                  - unavailable
+      - name: has_valid_delivery_timing
+        description: True when the delivered customer timestamp exists and is not before purchase.
+        data_tests:
+          - not_null
+
+  - name: dim_customer
+    description: Person-level customer dimension with RFM scores, customer segments, and churn flag.
+    columns:
+      - name: customer_unique_id
+        description: Unique person-level customer identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: rfm_segment
+        description: Business-friendly customer segment derived from RFM score components.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - at_risk
+                  - big_spenders
+                  - champions
+                  - lost
+                  - loyal_customers
+                  - potential_loyalists
+      - name: is_churned
+        description: True when the customer has not purchased within 180 days of the dataset analysis date.
+        data_tests:
+          - not_null
+
+  - name: dim_product
+    description: Product dimension with category attributes and delivered-sales rollups.
+    columns:
+      - name: product_id
+        description: Unique product identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: product_category_name_english
+        description: English product category label used for reporting.
+        data_tests:
+          - not_null
+
+  - name: dim_seller
+    description: Seller dimension with seller geography and delivered-sales rollups.
+    columns:
+      - name: seller_id
+        description: Unique seller identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: seller_state
+        description: Two-letter Brazilian state abbreviation for the seller.
+        data_tests:
+          - not_null
+
+  - name: agg_daily_sales
+    description: Daily delivered-order KPI table optimized for dashboarding and Tableau export.
+    columns:
+      - name: order_purchase_date
+        description: Calendar date of order purchase.
+        data_tests:
+          - not_null
+          - unique
+      - name: gross_revenue
+        description: Daily sum of item revenue plus freight for delivered orders.
+        data_tests:
+          - not_null

@@ -1,0 +1,50 @@
+version: 2
+
+sources:
+  - name: olist
+    description: Raw CSV extracts from the public Olist Brazilian E-Commerce dataset.
+    tables:
+      - name: orders
+        description: Raw order lifecycle table, one row per order.
+        meta:
+          external_location: "read_csv_auto('{{ env_var('RETAILPULSE_RAW_OLIST_PATH', 'data/raw/olist') }}/olist_orders_dataset.csv', header=true)"
+
+      - name: order_items
+        description: Raw order item table, one row per purchased item within an order.
+        meta:
+          external_location: "read_csv_auto('{{ env_var('RETAILPULSE_RAW_OLIST_PATH', 'data/raw/olist') }}/olist_order_items_dataset.csv', header=true)"
+
+      - name: customers
+        description: Raw customer table containing both order-level and person-level customer identifiers.
+        meta:
+          external_location: "read_csv_auto('{{ env_var('RETAILPULSE_RAW_OLIST_PATH', 'data/raw/olist') }}/olist_customers_dataset.csv', header=true)"
+
+      - name: products
+        description: Raw product attribute table.
+        meta:
+          external_location: "read_csv_auto('{{ env_var('RETAILPULSE_RAW_OLIST_PATH', 'data/raw/olist') }}/olist_products_dataset.csv', header=true)"
+
+      - name: payments
+        description: Raw payment records, with potentially multiple payment rows per order.
+        meta:
+          external_location: "read_csv_auto('{{ env_var('RETAILPULSE_RAW_OLIST_PATH', 'data/raw/olist') }}/olist_order_payments_dataset.csv', header=true)"
+
+      - name: reviews
+        description: Raw review records submitted after purchase.
+        meta:
+          external_location: "read_csv_auto('{{ env_var('RETAILPULSE_RAW_OLIST_PATH', 'data/raw/olist') }}/olist_order_reviews_dataset.csv', header=true)"
+
+      - name: sellers
+        description: Raw seller table with seller geography.
+        meta:
+          external_location: "read_csv_auto('{{ env_var('RETAILPULSE_RAW_OLIST_PATH', 'data/raw/olist') }}/olist_sellers_dataset.csv', header=true)"
+
+      - name: product_category_translations
+        description: Mapping from Portuguese product category names to English labels.
+        meta:
+          external_location: "read_csv_auto('{{ env_var('RETAILPULSE_RAW_OLIST_PATH', 'data/raw/olist') }}/product_category_name_translation.csv', header=true)"
+
+      - name: geolocation
+        description: Raw geolocation table with many observations per zip prefix.
+        meta:
+          external_location: "read_csv_auto('{{ env_var('RETAILPULSE_RAW_OLIST_PATH', 'data/raw/olist') }}/olist_geolocation_dataset.csv', header=true)"

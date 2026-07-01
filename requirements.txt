@@ -1,0 +1,11 @@
+dbt-core==1.11.11
+dbt-duckdb==1.10.1
+duckdb==1.5.4
+numpy==2.5.0
+pandas==3.0.3
+plotly==6.8.0
+pyarrow==24.0.0
+pytest==8.4.2
+scipy==1.18.0
+statsmodels==0.14.6
+streamlit==1.58.0

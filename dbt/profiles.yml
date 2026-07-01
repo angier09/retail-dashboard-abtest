@@ -1,0 +1,7 @@
+retailpulse:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('RETAILPULSE_DUCKDB_PATH', 'retailpulse.duckdb') }}"
+      threads: 4

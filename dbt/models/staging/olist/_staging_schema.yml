@@ -1,0 +1,157 @@
+version: 2
+
+models:
+  - name: stg_olist__orders
+    description: Cleaned order lifecycle records, one row per Olist order.
+    columns:
+      - name: order_id
+        description: Unique identifier for an order.
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: Order-level customer identifier used to join to the customer table.
+        data_tests:
+          - not_null
+      - name: order_status
+        description: Current status of the order in the Olist lifecycle.
+        data_tests:
+          - not_null
+
+  - name: stg_olist__order_items
+    description: Cleaned order item records, one row per item within an order.
+    columns:
+      - name: order_item_key
+        description: Stable synthetic key for an order item, built from order_id and order_item_id.
+        data_tests:
+          - not_null
+          - unique
+      - name: order_id
+        description: Identifier for the order containing the item.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_olist__orders')
+                field: order_id
+      - name: product_id
+        description: Identifier for the purchased product.
+        data_tests:
+          - not_null
+      - name: seller_id
+        description: Identifier for the seller fulfilling the item.
+        data_tests:
+          - not_null
+
+  - name: stg_olist__customers
+    description: Cleaned customer lookup table, one row per order-level customer_id.
+    columns:
+      - name: customer_id
+        description: Unique order-level customer identifier in Olist.
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_unique_id
+        description: Person-level customer identifier used for customer analytics.
+        data_tests:
+          - not_null
+      - name: customer_state
+        description: Two-letter Brazilian state abbreviation for the customer.
+        data_tests:
+          - not_null
+
+  - name: stg_olist__products
+    description: Cleaned product attributes with typo-corrected length fields.
+    columns:
+      - name: product_id
+        description: Unique product identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: product_category_name
+        description: Portuguese product category name from the raw dataset.
+
+  - name: stg_olist__payments
+    description: Cleaned payment records, preserving one row per payment sequence within an order.
+    columns:
+      - name: payment_key
+        description: Stable synthetic key for a payment row, built from order_id and payment_sequential.
+        data_tests:
+          - not_null
+          - unique
+      - name: order_id
+        description: Identifier for the paid order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_olist__orders')
+                field: order_id
+      - name: payment_type
+        description: Payment method used for the payment row.
+        data_tests:
+          - not_null
+
+  - name: stg_olist__reviews
+    description: Cleaned review records with a generated event-level key because raw review IDs are not unique.
+    columns:
+      - name: review_event_id
+        description: Stable synthetic key for a review event.
+        data_tests:
+          - not_null
+          - unique
+      - name: order_id
+        description: Identifier for the reviewed order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_olist__orders')
+                field: order_id
+      - name: review_score
+        description: Customer review score from 1 to 5.
+        data_tests:
+          - not_null
+
+  - name: stg_olist__sellers
+    description: Cleaned seller records, one row per seller.
+    columns:
+      - name: seller_id
+        description: Unique seller identifier.
+        data_tests:
+          - not_null
+          - unique
+      - name: seller_state
+        description: Two-letter Brazilian state abbreviation for the seller.
+        data_tests:
+          - not_null
+
+  - name: stg_olist__product_category_translations
+    description: Cleaned product category translation lookup from Portuguese to English.
+    columns:
+      - name: product_category_name
+        description: Portuguese product category name.
+        data_tests:
+          - not_null
+          - unique
+      - name: product_category_name_english
+        description: English category name used in dashboards and BI outputs.
+        data_tests:
+          - not_null
+
+  - name: stg_olist__geolocation
+    description: Cleaned raw geolocation observations, still retaining one row per raw observation.
+    columns:
+      - name: geolocation_event_id
+        description: Stable synthetic key for a raw geolocation observation.
+        data_tests:
+          - not_null
+          - unique
+      - name: geolocation_zip_code_prefix
+        description: Brazilian zip code prefix for the geolocation observation.
+        data_tests:
+          - not_null
+      - name: geolocation_state
+        description: Two-letter Brazilian state abbreviation for the geolocation observation.
+        data_tests:
+          - not_null

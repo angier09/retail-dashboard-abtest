@@ -12,5 +12,13 @@ data/processed/
 target/
 dbt_packages/
 logs/
+dbt/.user.yml
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+*.duckdb
+*.duckdb.wal
+analysis/outputs/
+tableau/exports/
 
 .ipynb_checkpoints/
