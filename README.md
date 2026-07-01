@@ -203,16 +203,19 @@ justify a business decision without stronger intervention design or additional
 context.
 
 ## Dashboard Screenshots
+screenshots are here after opening the local dashboard:
+<img width="1458" height="772" alt="Screenshot 2026-07-01 at 6 32 30 PM 1" src="https://github.com/user-attachments/assets/86376b38-a4c9-49c0-83f9-cffe7fa1e918" />
+<img width="1426" height="636" alt="Screenshot 2026-07-01 at 6 33 40 PM" src="https://github.com/user-attachments/assets/19ad40b5-3c5a-4886-902e-0cc9033f68ca" />
+<img width="1455" height="797" alt="Screenshot 2026-07-01 at 6 33 30 PM" src="https://github.com/user-attachments/assets/4accf766-f751-47b1-b01d-517167c2cbbd" />
+<img width="1129" height="451" alt="Screenshot 2026-07-01 at 6 34 02 PM" src="https://github.com/user-attachments/assets/cc87fed7-d74a-4e44-8784-940b4a5437a3" />
+<img width="1418" height="738" alt="Screenshot 2026-07-01 at 6 34 31 PM" src="https://github.com/user-attachments/assets/afca492e-6e1a-43a7-b586-7488cf2af8bc" />
+<img width="1448" height="742" alt="Screenshot 2026-07-01 at 6 34 16 PM" src="https://github.com/user-attachments/assets/a80d90ed-299c-491d-b58a-ffe709ce45d3" />
 
-Add screenshots here after opening the local dashboard:
 
-```text
-docs/screenshots/sales_overview.png
-docs/screenshots/customer_segments.png
-docs/screenshots/experiment_results.png
-```
 
-## Interview Talking Points
+
+
+## Important Talking Points
 
 - `customer_unique_id` is the correct customer identity for RFM, churn, and
   experiment randomization; `customer_id` is order-level in Olist.
@@ -232,6 +235,3 @@ export RETAILPULSE_RAW_OLIST_PATH="data/raw/olist"
 export RETAILPULSE_AB_TEST_OUTPUT_DIR="analysis/outputs"
 export RETAILPULSE_TABLEAU_EXPORT_DIR="tableau/exports"
 ```
-
-Secrets are not required for this local project. `.env` and `.env.local` are
-ignored to demonstrate standard credential hygiene.
